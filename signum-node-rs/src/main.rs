@@ -47,7 +47,6 @@ async fn start() -> Result<()> {
         o = p2p_api_task => report_exit("P2P API Server", o),
         o = peer_finder_task => report_exit("Peer Finder", o),
         o = peer_info_trader_task => report_exit("Peer Info Trader", o),
-        // o = interval_task => report_exit("Interval Task", o),
     };
 
     Ok(())
@@ -75,14 +74,4 @@ fn report_exit(task_name: &str, outcome: Result<Result<(), impl Debug + Display>
             )
         }
     }
-}
-
-#[allow(dead_code)]
-async fn interval_actor_demo() -> Result<()> {
-    let mut interval = time::interval(time::Duration::from_secs(10));
-    for _ in 1..30 {
-        tracing::debug!("Interval Tick");
-        interval.tick().await;
-    }
-    Ok(())
 }
