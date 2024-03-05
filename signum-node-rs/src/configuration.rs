@@ -109,8 +109,20 @@ pub struct PeerToPeerSettings {
 }
 
 fn default_value_bootstrap_peers() -> Vec<PeerAddress> {
-    //TODO: add default peers here
-    Vec::new()
+    vec![
+        PeerAddress::from_str("212.98.92.236").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("108.61.251.202").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("190.15.195.118").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("24.96.113.8").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("88.64.234.237").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("137.135.203.145").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("70.108.6.237").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("144.91.84.164").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("213.32.102.141").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("5.196.65.184").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("89.163.239.219").expect("could not parse bootstrap ip address"),
+        PeerAddress::from_str("165.227.36.71").expect("could not parse bootstrap ip address"),
+    ]
 }
 
 fn default_value_my_address() -> String {
