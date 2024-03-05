@@ -9,5 +9,6 @@ use serde::Deserialize;
 #[serde(tag = "requestType")]
 pub enum RequestType {
     AddPeers { peers: Vec<String> },
+    GetInfo {},
     GetPeers {},
 }

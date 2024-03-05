@@ -1,6 +1,6 @@
 use actix_web::{web::Json, HttpResponse, Responder};
 
-use crate::srs_api::{add_peers, get_peers};
+use crate::srs_api::{add_peers, get_info, get_peers};
 
 use super::request_models;
 
@@ -11,6 +11,7 @@ pub async fn signum_api_handler(
     tracing::debug!("Request Object: {:#?}", &request_object);
     let _response = match request_object.0 {
         request_models::RequestType::AddPeers { peers } => add_peers::add_peers_handler(peers),
+        request_models::RequestType::GetInfo {} => get_info::get_info_handler(),
         request_models::RequestType::GetPeers {} => get_peers::get_peers_handler(),
     };
     HttpResponse::Ok().finish()
