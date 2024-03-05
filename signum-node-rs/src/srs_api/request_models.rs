@@ -9,6 +9,16 @@ use serde::Deserialize;
 #[serde(tag = "requestType")]
 pub enum RequestType {
     AddPeers { peers: Vec<String> },
-    GetInfo {},
+    GetInfo { payload: GetInfoRequestModel },
     GetPeers {},
+}
+
+#[derive(Debug, Deserialize)]
+pub struct GetInfoRequestModel {
+    pub announced_address: Option<String>,
+    pub application: String,
+    pub version: String,
+    pub platform: String,
+    pub share_address: bool,
+    pub network_name: String,
 }
