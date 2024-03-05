@@ -7,6 +7,14 @@ async fn srs_api_handler_returns_valid_data_for_get_info_request() {
 
     let client = reqwest::Client::new();
 
+
+#[tokio::test]
+async fn srs_api_handler_returns_valid_data_for_add_peers_request() {
+    // Arrange
+    let app = spawn_app().await;
+
+    let client = reqwest::Client::new();
+
     let body = serde_json::json!({
         "requestType": "getInfo",
     });
