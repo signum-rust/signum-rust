@@ -91,14 +91,19 @@ pub struct PeerToPeerSettings {
     /// Peer addresses to use if none are in the database already.
     #[serde(default = "default_value_bootstrap_peers")]
     pub bootstrap_peers: Vec<PeerAddress>,
+    /// Address that peers should attempt to connect to.
     #[serde(default = "default_value_my_address")]
     pub my_address: String,
+    /// A string indicating the platform in use. Often set to a signum address for SNR rewards.
     #[serde(default = "default_value_platform")]
     pub platform: String,
+    /// Whether or not peers should pass along your address to their own peers.
     #[serde(default = "default_value_share_address")]
     pub share_address: bool,
+    /// The name of the network to which this node is connecting.
     #[serde(default = "default_value_network_name")]
     pub network_name: String,
+    /// The address to which SNR awards should be paid. Currently unused on the network.
     #[serde(default = "default_value_snr_reward_address")]
     pub snr_reward_address: String,
 }
