@@ -24,7 +24,7 @@ run level=LOG_LEVEL:
 
 # run cargo nextest
 test:
-    cargo nextest run
+    cargo watch -x "nextest run"
 # cargo watch with default tracing (tracing-subscriber)
 watch level=LOG_LEVEL:
     RUST_LOG="INFO,signum_node_rs={{level}}" cargo watch -x check -x "run"
