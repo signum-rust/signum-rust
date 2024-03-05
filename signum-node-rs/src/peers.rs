@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use actix_web::ResponseError;
 use anyhow::{Context, Result};
 use sqlx::SqlitePool;
 
@@ -209,6 +210,8 @@ pub enum GetPeerInfoError {
     #[error(transparent)]
     UnexpectedError(#[from] anyhow::Error),
 }
+
+impl ResponseError for GetPeerInfoError {}
 
 impl std::fmt::Debug for GetPeerInfoError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
