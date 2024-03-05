@@ -29,7 +29,7 @@ async fn srs_api_handler_returns_valid_data_for_get_info_request() {
 
     // Assert
     assert!(response.status().is_success());
-    assert_eq!(Some(0), response.content_length());
+    assert_ne!(Some(0), response.content_length());
     let json = response.json::<GetInfoRequestModel>().await;
     //TODO: Remove this and do an actual test on test data, probably input from TestApp
     println!("JSON IS: {:#?}", json);
