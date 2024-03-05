@@ -89,21 +89,42 @@ pub struct NodeSettings {
 #[derive(Clone, Debug, Deserialize)]
 pub struct PeerToPeerSettings {
     /// Peer addresses to use if none are in the database already.
+    #[serde(default = "default_value_bootstrap_peers")]
     pub bootstrap_peers: Vec<PeerAddress>,
+    #[serde(default = "default_value_my_address")]
     pub my_address: String,
     #[serde(default = "default_value_platform")]
     pub platform: String,
-    #[serde(default)]
+    #[serde(default = "default_value_share_address")]
     pub share_address: bool,
     #[serde(default = "default_value_network_name")]
     pub network_name: String,
-    pub snr_reward_address: Option<String>,
+    #[serde(default = "default_value_snr_reward_address")]
+    pub snr_reward_address: String,
+}
+
+fn default_value_bootstrap_peers() -> Vec<PeerAddress> {
+    //TODO: add default peers here
+    Vec::new()
+}
+
+fn default_value_my_address() -> String {
+    //TODO: Figure out a way to get external IP and populate it
+    String::new()
 }
 
 fn default_value_platform() -> String {
     String::new()
 }
 
+fn default_value_share_address() -> bool {
+    true
+}
+
 fn default_value_network_name() -> String {
     "Signum".to_string()
+}
+
+fn default_value_snr_reward_address() -> String {
+    String::new()
 }
