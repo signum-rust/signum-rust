@@ -9,7 +9,7 @@ use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 use tracing_actix_web::TracingLogger;
 
 use crate::{
-    configuration::{DatabaseSettings, Settings},
+    configuration::{self, DatabaseSettings, Settings},
     health_check,
     srs_api::signum_api_handler,
 };
@@ -58,6 +58,7 @@ async fn run(
 ) -> Result<Server, anyhow::Error> {
     let db_pool = Data::new(db_pool);
     let base_url = Data::new(ApplicationBaseUrl(base_url));
+    let p2p_api_info = Data::new(configuration::get_configuration().unwrap().p2p);
 
     let server = HttpServer::new(move || {
         App::new()
@@ -66,6 +67,7 @@ async fn run(
             .route("/{allroutes:.*}", web::post().to(signum_api_handler))
             .app_data(db_pool.clone())
             .app_data(base_url.clone())
+            .app_data(p2p_api_info.clone())
     })
     .listen(listener)?
     .run();

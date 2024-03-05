@@ -91,5 +91,19 @@ pub struct PeerToPeerSettings {
     /// Peer addresses to use if none are in the database already.
     pub bootstrap_peers: Vec<PeerAddress>,
     pub my_address: String,
+    #[serde(default = "default_value_platform")]
+    pub platform: String,
+    #[serde(default)]
+    pub share_address: bool,
+    #[serde(default = "default_value_network_name")]
+    pub network_name: String,
     pub snr_reward_address: Option<String>,
+}
+
+fn default_value_platform() -> String {
+    String::new()
+}
+
+fn default_value_network_name() -> String {
+    "Signum".to_string()
 }

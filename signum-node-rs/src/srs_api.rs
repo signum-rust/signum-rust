@@ -1,3 +1,4 @@
+pub mod outgoing_json;
 pub mod request_models;
 
 mod add_peers;
