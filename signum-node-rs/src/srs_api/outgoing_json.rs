@@ -71,17 +71,3 @@ impl std::fmt::Debug for OutgoingRequestError {
         crate::error_chain_fmt(self, f)
     }
 }
-
-// impl GetInfoRequestModel {
-//     pub fn get_my_info_json() -> serde_json::Value {
-//         let myinfo = GetInfoRequestModel {
-//             announced_address: Some(),
-//             application: todo!(),
-//             version: todo!(),
-//             platform: todo!(),
-//             share_address: todo!(),
-//             network_name: todo!(),
-//         };
-//     }
-//
-// }
