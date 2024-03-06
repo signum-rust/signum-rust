@@ -23,7 +23,7 @@ pub async fn spawn_app() -> TestApp {
     Lazy::force(&TRACING);
 
     // Randomize config to ensure test isolation
-    let configuration = {
+    let mut configuration = {
         let mut c = get_configuration().expect("failed to read configuration");
         c.database.filename = "sqlite::memory:".to_string();
         c.srs_api.listen_port = 0;
@@ -49,8 +49,17 @@ pub async fn spawn_app() -> TestApp {
         .build()
         .unwrap();
 
+    let address = format!("http://localhost:{}", application_port);
+
+    // Set up config for testing
+    configuration.p2p.my_address = address.clone();
+    configuration.p2p.platform = "my_platform".to_string();
+    configuration.p2p.share_address = true;
+    configuration.p2p.network_name = "TEST".to_string();
+    configuration.p2p.snr_reward_address = "SNRADDRESS".to_string();
+
     TestApp {
-        address: format!("http://localhost:{}", application_port),
+        address,
         port: application_port,
         db_pool,
         api_client: client,
