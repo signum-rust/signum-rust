@@ -13,7 +13,7 @@ pub enum RequestType {
     GetPeers {},
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct GetInfoRequestModel {
     pub announced_address: Option<String>,
