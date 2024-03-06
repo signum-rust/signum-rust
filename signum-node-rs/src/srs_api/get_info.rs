@@ -8,7 +8,7 @@ use super::{
 };
 
 pub(crate) fn get_info_handler(
-    model: GetInfoRequestModel,
+    _model: GetInfoRequestModel,
     settings: &PeerToPeerSettings,
 ) -> Result<HttpResponse, actix_web::Error> {
     let myinfo = OutgoingJsonBuiler::new(settings).get_info().finish()?;
