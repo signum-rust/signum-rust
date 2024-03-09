@@ -68,6 +68,8 @@ async fn srs_api_handler_returns_valid_data_for_add_peers_request() {
         .await
         .expect("failed to execute request");
 
+    //TODO: Test adding new peers to database
+
     // Assert
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
@@ -92,6 +94,8 @@ async fn srs_api_handler_returns_valid_data_for_get_peers_request() {
         .send()
         .await
         .expect("failed to execute request");
+
+    //TODO: Add a peer to the database in spawn_app, test against it here
 
     // Assert
     assert!(response.status().is_success());
