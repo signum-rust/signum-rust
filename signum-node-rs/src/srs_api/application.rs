@@ -9,7 +9,7 @@ use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 use tracing_actix_web::TracingLogger;
 
 use crate::{
-    configuration::{self, DatabaseSettings, Settings},
+    configuration::{self, DatabaseSettings, PeerToPeerSettings, Settings},
     health_check,
     srs_api::signum_api_handler,
 };
@@ -31,7 +31,13 @@ impl SrsApiApplication {
         let listener = TcpListener::bind(address)?;
         let port = listener.local_addr().unwrap().port();
 
-        let server = run(listener, connection_pool, configuration.srs_api.base_url).await?;
+        let server = run(
+            listener,
+            connection_pool,
+            configuration.srs_api.base_url,
+            configuration.p2p.clone(),
+        )
+        .await?;
 
         Ok(Self { port, server })
     }
@@ -55,10 +61,11 @@ async fn run(
     listener: TcpListener,
     db_pool: SqlitePool,
     base_url: String,
+    p2p_settings: PeerToPeerSettings,
 ) -> Result<Server, anyhow::Error> {
     let db_pool = Data::new(db_pool);
     let base_url = Data::new(ApplicationBaseUrl(base_url));
-    let p2p_api_info = Data::new(configuration::get_configuration().unwrap().p2p);
+    let p2p_settings = Data::new(p2p_settings);
 
     let server = HttpServer::new(move || {
         App::new()
@@ -67,7 +74,7 @@ async fn run(
             .route("/{allroutes:.*}", web::post().to(signum_api_handler))
             .app_data(db_pool.clone())
             .app_data(base_url.clone())
-            .app_data(p2p_api_info.clone())
+            .app_data(p2p_settings.clone())
     })
     .listen(listener)?
     .run();
