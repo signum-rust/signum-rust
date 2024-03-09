@@ -9,7 +9,7 @@ use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 use tracing_actix_web::TracingLogger;
 
 use crate::{
-    configuration::{self, DatabaseSettings, PeerToPeerSettings, Settings},
+    configuration::{DatabaseSettings, PeerToPeerSettings, Settings},
     health_check,
     srs_api::signum_api_handler,
 };
