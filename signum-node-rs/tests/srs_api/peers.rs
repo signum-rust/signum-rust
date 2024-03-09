@@ -18,7 +18,7 @@ async fn srs_api_handler_returns_valid_data_for_get_info_request() -> Result<(),
         "shareAddress": false,
         "networkName": "Signum-TEST",
     });
-    println!("SENDING: {:#?}", &body);
+
     // Act
     let response = client
         .post(&format!("{}/", &app.address))
@@ -35,14 +35,13 @@ async fn srs_api_handler_returns_valid_data_for_get_info_request() -> Result<(),
         .json::<GetInfoRequestModel>()
         .await
         .context("couldn't deserialize json")?;
-    //TODO: Remove this and do an actual test on test data, probably input from TestApp
-    println!("JSON IS: {:#?}", json);
+
     let template = GetInfoRequestModel {
-        announced_address: Some(format!("http://localhost:{}", app.port)),
+        announced_address: Some(format!("http://localhost").to_string()),
         application: Some("SignumRust".to_string()),
         version: Some("0.1.0".to_string()),
         platform: Some("Test".to_string()),
-        share_address: Some(false),
+        share_address: Some(true),
         network_name: "TEST".to_string(),
     };
     assert_eq!(json, template);

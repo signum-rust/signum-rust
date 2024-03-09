@@ -23,10 +23,17 @@ pub async fn spawn_app() -> TestApp {
     Lazy::force(&TRACING);
 
     // Randomize config to ensure test isolation
-    let mut configuration = {
+    let configuration = {
         let mut c = get_configuration().expect("failed to read configuration");
         c.database.filename = "sqlite::memory:".to_string();
         c.srs_api.listen_port = 0;
+
+        // Set up config for testing
+        c.p2p.my_address = "http://localhost".to_string();
+        c.p2p.platform = "Test".to_string();
+        c.p2p.share_address = true;
+        c.p2p.network_name = "TEST".to_string();
+        c.p2p.snr_reward_address = "SNRADDRESS".to_string();
         c
     };
 
@@ -40,7 +47,7 @@ pub async fn spawn_app() -> TestApp {
         .await
         .expect("failed to build application");
     let application_port = application.port();
-    // #[allow("clippy::let_underscore_future")]
+
     tokio::spawn(application.run_until_stopped());
 
     let client = reqwest::Client::builder()
@@ -49,17 +56,8 @@ pub async fn spawn_app() -> TestApp {
         .build()
         .unwrap();
 
-    let address = format!("http://localhost:{}", application_port);
-
-    // Set up config for testing
-    configuration.p2p.my_address = address.clone();
-    configuration.p2p.platform = "my_platform".to_string();
-    configuration.p2p.share_address = true;
-    configuration.p2p.network_name = "TEST".to_string();
-    configuration.p2p.snr_reward_address = "SNRADDRESS".to_string();
-
     TestApp {
-        address,
+        address: format!("http://localhost:{}", application_port),
         port: application_port,
         db_pool,
         api_client: client,
